@@ -1,0 +1,31 @@
+---
+# site serving configuration
+exclude: [CNAME, README.md, .gitignore]
+# disables post output
+permalink: /
+# Use this if switching to actual posts.
+# permalink: /archive/:title
+timezone: null
+
+
+title: 'wedding ... yay!'
+description: "The website for Katie and Sumo's wedding"
+
+
+colors:
+    green: '#40b089' # mint leaf
+    #green: '#a3c1ad' # cambridge blue
+    black: '#2e2e2e'
+    blue: '#7da1bf'   # dusk blue
+    brown: '#635147'  # umber
+    #green: '#7dcfb6'  # lucite green
+    red: '#fa8072'    # salmon
+    white: '#fffdda'  # cream
+    yellow: '#fada6e' # half royal half mellow
+    #yellow: '#fada5e' # royal yellow
+    #yellow: '#fff44f' # lemon yellow
+    #yellow: '#f8de7e' # mellow yellow
+    #red: '#e3868f'    # strawberry ice
+    #red: '#955251'   # marsala
+    fullblack: '#000'
+    fullwhite: '#fff'
