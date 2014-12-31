@@ -1,3 +1,3 @@
 
-<span style="color: {{site.colors.red}}"></span>Chris<span style="color: {{site.colors.green}}">❤'s </span>Katie
+<span style="color: {{site.colors.red}}"></span>Chris<span style="color: {{site.colors.green}}"> ❤'s </span>Katie
 
