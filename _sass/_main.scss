@@ -1,0 +1,346 @@
+body {
+    background: $fullwhite;
+    font: $text-size $text-font;
+    color: $black;
+    -webkit-font-smoothing: antialiased; // Fix for webkit rendering
+    -webkit-text-size-adjust: 100%;
+}
+
+
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+
+img {
+    max-width: 100%!important;
+    height: auto;
+    vertical-align: middle;
+}
+
+
+// keep embedded videos fluid!
+.icontain {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 56.25%; // keep 16x9 Aspect Ratio
+    iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+}
+.i4x3 { padding-bottom: 75.00%; } // keep 4x3 Aspect Ratio
+
+
+.inlineblock {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+}
+
+
+// CSS bidi shim from
+// http://www.w3.org/International/articles/inline-bidi-markup/#cssshim
+[dir='ltr'], [dir='rtl'] {
+    unicode-bidi: -webkit-isolate;
+    unicode-bidi: -moz-isolate;
+    unicode-bidi: -ms-isolate;
+    unicode-bidi: isolate;
+}
+bdo[dir='ltr'], bdo[dir='rtl'] {
+    unicode-bidi: bidi-override;
+    unicode-bidi: -webkit-isolate-override;
+    unicode-bidi: -moz-isolate-override;
+    unicode-bidi: -ms-isolate-override;
+    unicode-bidi: isolate-override;
+}
+[dir='rtl'] { font-family: $hebrew-font; }
+
+
+@include fontsizes($heading-sizes);
+h1, h2, h3, h4, h5, h6 {
+    font-family: $titling-font;
+    font-weight: 900;
+    a { font-weight: inherit; }
+}
+
+
+em { font-style: italic; }
+strong { font-weight: 900; font-size: 97%; }
+small { font-size: 80%; }
+
+
+p { margin: 0 0 20px 0;
+    //padding: 0 10px;
+    text-align: justify;
+    img { margin: 0; }
+}
+
+
+a, a:visited { text-decoration: underline; outline: 0; }
+a:hover, a:focus { }
+p a, p a:visited { line-height: inherit; }
+
+
+blockquote {
+    @include push(1);
+    @include pull(1);
+    border-left: 1px solid;
+    cite { display: block; font-size: 12px; color: #555;
+        a, a:visited { color: #555 }
+    }
+    cite:before { content: "\2014 \0020"; }
+    p { margin-left: 20px; color: inherit; font-style: italic; }
+}
+
+
+hr {
+    border-width: 1px 0 0;
+    border-style: solid;
+    clear: both;
+    height: 0;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    @include push(1);
+    @include pull(1);
+}
+
+
+// List formatting
+ul, ol {
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-left: 17px;
+    + p { padding-top: 12px; }
+}
+ul ul, ul ol, ol ul, ol ol { padding-left: 17px; }
+ul { list-style: none outside; }
+ol { list-style: decimal outside;
+    ol { list-style: lower-alpha outside;
+        ol { list-style: lower-roman outside; }
+    }
+}
+ul { list-style: circle outside;
+    ul { list-style: disc outside;
+        ul { list-style: square outside; }
+    }
+}
+
+
+li { margin-left: inherit; padding-left: 5px; }
+
+
+@each $title, $colors in zip($posts, $colorlists) {
+    @include post-colors($title, nth($colors, 1),
+                                 nth($colors, 2),
+                                 nth($colors, 3))
+}
+
+
+.landing {
+    padding-top: 15vh !important;
+    background: url(/images/improbable_boulder.png) no-repeat center center;
+    background-size: cover;
+    height: 100vh;
+    article {
+        @include column(2);
+        @include push(3);
+        color: $white;
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Alegreya Sans;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px black, 0 0 10px $black; }
+    }
+}
+
+
+$navborder-active: 2 * $navborder;
+
+
+nav {
+    font-size: 15px;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background: $black;
+    ul {
+        list-style: none;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        li {
+            display: inline-block;
+            border-top: $navborder solid;
+            padding: $navborder 0;
+            zoom: 1;
+            line-height: normal;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            min-width: 110px;
+            line-height: 50px;
+            margin: 0;
+            a, a:visited {
+                display: block;
+                color: $white;
+                text-decoration: none;
+                opacity: 0.75;
+            }
+            a:hover { opacity: 1;
+                      text-shadow: 0 0 4px transparentize($white, 0.8)}
+        }
+        li:hover, li.active {
+            border-top-width: $navborder-active;
+            padding-top: 0;
+        }
+    }
+}
+
+
+section { // defines a block of post material (including the divider).
+    @include row();
+    margin: 0;
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    padding: 210px 0;
+    background: url(/images/bgnoise.png);
+    article { // wraps the actual content.
+        @include column(3);
+        @include push(1); // for some reason push needs to come after column
+        @include pull(1);
+        word-wrap: break-word;
+        h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 0 10px;
+        }
+        p:first-of-type { margin-top: 40px; }
+        aside { // wraps marginalia.
+            @include column(1);
+            position: absolute;
+            display: inline;
+            top: auto;
+            right: 0;
+            p, p:first-of-type {
+                font-style: italic;
+                font-size: 80%;
+                text-align: left;
+            }
+            p:first-of-type { margin-top: 0; }
+            // This needs to be thought out better.
+            // &.hebrew { left: 0; text-align: right; }
+        }
+    }
+}
+
+
+section:first-of-type {
+    padding-top: 140px;
+}
+
+
+footer {
+    padding: 6px 0;
+    min-height: 0;
+    background-color: $black;
+    background-image:none;
+    p, p:first-of-type {
+        font-size: 14px;
+        margin: 0;
+        color: $white;
+        opacity: 0.75;
+        text-align: center;
+    }
+}
+
+
+.subtlecircle {
+    text-align: center;
+    z-index: 3;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    background-color: transparentize($fullwhite, 0.8);
+}
+
+
+.sectiondivider {
+    @include column(5);
+    width: 270px;
+    height: 270px;
+    padding: 15px;
+    position: absolute;
+    top: -135px;
+    left: 50%;
+    margin-left: -135px;
+    img {
+        width: 200px;
+        height: 240px;
+        position: static;
+        margin-top: -20px;
+    }
+    .fa-stack { font-size: 130px; position: static; margin-top: -8px; }
+    .fa-circle { color: $fullwhite; }
+    h5 {
+        text-transform: lowercase;
+        position: absolute;
+        bottom: 50px;
+        text-align: center;
+        display: block;
+        z-index: 6;
+        width: 240px;
+    }
+    .imaged { text-shadow: 1px 1px 3px #333; }
+}
+
+
+@media only screen and (max-width: 767px) {
+    section {
+        padding: 180px 15px;
+        article {
+            @include column(5);
+            aside {
+                position: relative;
+                @include column(5);
+                p, p:first-of-type { text-align: justify; }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 679px) {
+    @include fontsizes($mobile-heading-sizes);
+    hr { margin-top: 30px; margin-bottom: 30px; @include column(5); }
+    blockquote { @include push(1); @include pull(0);
+        border-left: 0 none;
+        p { margin-left: 0; padding-left: 0 }
+    }
+
+
+    $mobile-navborder-active: 2 * $mobile-navborder;
+    nav {
+        font-size: 14px;
+        ul {
+            li {
+                min-width: 60px;
+                line-height: 30px;
+                border-top: $mobile-navborder solid;
+                padding: $mobile-navborder 0;
+            }
+            li:hover, li.active { border-top-width: $mobile-navborder-active; }
+        }
+    }
+
+
+    .landing {
+        padding-top: 5vh !important;
+        background: url('/images/improbable_boulder_mobile.png') no-repeat center center;
+        background-size: cover;
+        article {
+            @include pull(1);
+            @include column(4);
+            h1, h2, h3, h4, h5, h6 { text-align: left; }
+        }
+    }
+}
