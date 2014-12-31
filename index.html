@@ -1,0 +1,64 @@
+---
+---
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.description }}">
+    <link rel="stylesheet" href="/css/main.css">
+    <link
+    href='http://fonts.googleapis.com/css?family=Alegreya+Sans:500,500italic,900,900italic|Alegreya+Sans+SC:500,500italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <title>{{ site.title }}</title>
+</head>
+
+
+<body>
+<nav><ul>
+    {% for post in site.posts reversed %}
+    {% capture id %}{{ post.id | remove:'/' | downcase }}{% endcapture %}
+    <li class="p-{{id}}"><a href="#{{id}}">{{post.title}}</a></li>
+    {% endfor %}
+</ul></nav>
+
+
+<main role="main">
+    <section class="landing">
+        <article><h2>When this is your idea of fun&hellip;</h2></article>
+    </section>
+
+
+    {% for post in site.posts reversed %}
+    {% capture id %}{{ post.id | remove:'/' | downcase }}{% endcapture %}
+    <section id="{{id}}">
+        {% if post.icon %}
+        <div class="subtlecircle sectiondivider imaged">
+            <img src="{{post.icon}}" alt="section icon" />
+            <h5 class="icon-title">{{ post.title }}</h5>
+        </div>
+        {% elsif post.fa-icon %}
+        <div class="subtlecircle sectiondivider faicon">
+            <span class="fa-stack">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-{{ post.fa-icon }} fa-stack-1x"></i>
+            </span>
+            <h5 class="icon-title">{{ post.title }}</h5>
+        </div>
+        {% endif %}
+        <article>{{ post.content }}</article>
+    </section>
+    {% endfor %}
+</main>
+
+
+<footer>
+    {% capture foottext %}{% include footer.md %}{% endcapture %}
+    {{ foottext | markdownify }}
+</footer>
+
+
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="site.js"></script>
+</html>
