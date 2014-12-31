@@ -1,0 +1,76 @@
+---
+---
+$text-font: "Alegreya Sans", sans-serif;
+$titling-font: "Alegreya Sans SC", sans-serif;
+$hebrew-font: "Mazon Hebrew", serif;
+$text-size: #{18px/24px}; // interpolation prevents division.
+$heading-sizes: 46px, 38px, 32px, 26px, 22px, 18px;
+$mobile-heading-sizes: 40px, 34px, 28px, 24px, 20px, 18px;
+
+
+$navborder: 4px;
+$mobile-navborder: $navborder / 2;
+
+
+{% for color in site.colors %}
+    ${{ color[0] }}: {{ color[1] }};
+{% endfor %}
+
+
+{% capture ids %}
+{% for post in site.posts reversed %}
+    {{ post.id | remove: '/' | downcase }},
+{% endfor %}
+{% endcapture %}
+$posts: ( {{ ids }} );
+
+
+{% capture colors %}
+{% for post in site.posts reversed %}
+    (
+    {% for color in post.colors %}
+        ${{ color }},
+    {% endfor %}
+    ),
+{% endfor %}
+{% endcapture %}
+$colorlists: ( {{ colors }} );
+// $colorlists: (($white, $brown, $red), ($green, $white, $brown), ($brown, $red, $white));
+
+
+@mixin post-colors($post-name, $bgcolor, $fgcolor, $headcolor) {
+    nav .p-#{$post-name} { border-color: $bgcolor; }
+    ##{$post-name} {
+        background-color: $bgcolor !important; color: $fgcolor;
+        a { color: $fgcolor; }
+        .sectiondivider, .icon-title { color: $bgcolor; }
+        h1, h2, h3, h4, h5, h6 { color: $headcolor; }
+        hr { border-color: $fgcolor; }
+        blockquote { border-left-color: $headcolor; }
+    }
+}
+
+
+@function make-fontsize-list($sizehints) {
+    @if type-of($sizehints) == number {
+        // ideally, make some sort of educated guess.
+    } @else if type-of($sizehints) == list and length($sizehints) == 6 {
+        @return $sizehints;
+    }
+}
+
+
+@mixin fontsizes($sizehints) {
+    @each $i, $size in zip((1, 2, 3, 4, 5, 6), make-fontsize-list($sizehints)) {
+        h#{$i} {
+            font-size: $size;
+            line-height: 115%;
+            letter-spacing: $size/100*8; // i.e., 8%
+        }
+    }
+}
+
+
+@import "reset";
+@import "grid";
+@import "styles";
